@@ -29,12 +29,12 @@ const Question = (props: QuestionProps) => {
     const [value, setValue] = useState<string>(defaultValueString);
     const [error, setError] = useState<boolean>(false);
     const [helperText, setHelperText] = useState<string>('');
-    const optionsEntries = Object.entries(props.question.options ?? {***REMOVED***
+    const optionsEntries = Object.entries(props.question.options ?? {});
 
     const generateMarks = () => {
         const marks = [];
         for (let i = 1; i <= 10; i++) {
-            marks.push({ value: i, label: `${i}` ***REMOVED***
+            marks.push({ value: i, label: `${i}` });
         }
         return marks;
     }

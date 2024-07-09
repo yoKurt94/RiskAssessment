@@ -16,16 +16,16 @@ const ResultCardAlternative = (props: ResultCardAlternativeProps) => {
     const flattenRiskRateResponse = (resultData: Types.RiskRateResponse) => {
         const flattenedData = [];
 
-        flattenedData.push({ label: 'calculatedRiskRate', value: resultData.calculatedRiskRate ***REMOVED***
+        flattenedData.push({ label: 'calculatedRiskRate', value: resultData.calculatedRiskRate });
         Object.entries(resultData.riskValues).forEach(([key, value]) => {
             if (key !== "safetyZone" && key !== "lowerLimit") {
                 if (key !== "calculatedRiskRate") {
-                    flattenedData.push({ label: key, value: `${value}%` ***REMOVED***
+                    flattenedData.push({ label: key, value: `${value}%` });
                 } else {
-                    flattenedData.push({ label: key, value ***REMOVED***
+                    flattenedData.push({ label: key, value });
                 }
             }
-        ***REMOVED***
+        });
         return flattenedData;
     };
 

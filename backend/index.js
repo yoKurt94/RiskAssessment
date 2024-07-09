@@ -30,7 +30,7 @@ app.post('/add_entry', async (req, res) => {
         console.error(err.message);
         res.status(500).send("Server error");
     }
-***REMOVED***
+});
 
 
 app.get('/entries/:id', async (req, res) => {
@@ -66,8 +66,8 @@ app.get('/entries/:id', async (req, res) => {
         console.log(err.message);
         res.status(500).send("Server error");
     }
-***REMOVED***
+});
 
 app.listen((5001), () => {
     console.log("Server has started on port 5001");
-***REMOVED***
+});

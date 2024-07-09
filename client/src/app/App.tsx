@@ -22,7 +22,7 @@ function App() {
       safetyZone: 0,
       lowerLimit: 0,
     }
-  ***REMOVED***
+  });
 
   return (
     <UserAnswerContext.Provider

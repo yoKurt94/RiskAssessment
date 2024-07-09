@@ -14,14 +14,14 @@ interface ResultCardProps {
 }
 
 const ResultCard = (props: ResultCardProps) => {
-    const [chartSize, setChartSize] = useState({ width: 200, height: 100 ***REMOVED***
+    const [chartSize, setChartSize] = useState({ width: 200, height: 100 });
     
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 600) {
-                setChartSize({ width: 150, height: 75 ***REMOVED***
+                setChartSize({ width: 150, height: 75 });
             } else {
-                setChartSize({ width: 200, height: 100 ***REMOVED***
+                setChartSize({ width: 200, height: 100 });
             }
         }
 

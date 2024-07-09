@@ -16,7 +16,7 @@ const useFetch = <T extends unknown[]>(
         data: null,
         error: null,
         loading: false,
-    ***REMOVED***
+    });
 
     const localFetchResult: Types.FetchResponse = {
         response: 0,
