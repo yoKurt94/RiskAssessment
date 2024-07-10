@@ -7,18 +7,15 @@ import {
 import {
     Box,
     Button,
-    Stepper,
-    Step,
-    StepLabel,
-    MobileStepper,
     Alert
 } from "@mui/material";
-import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import Question from "./Question";
 import { riskAssessmentData } from "../constants";
 import Result from "./Result";
 import Start from "./Start";
+import DesktopStepper from "./DesktopStepper";
+import PhoneStepper from "./MobileStepper";
+import PreviousAndNextButton from "./PreviousAndNextButton";
 import useFetch from "../hooks/useFetch";
 import { UserAnswerContext } from "../types";
 import { v4 } from 'uuid';
@@ -105,76 +102,10 @@ const RightSide = (props: RightSideProps) => {
                 {
                     activeStep !== riskAssessmentData.questions.length + 1 ? (
                         <>
-                            <Box
-                                sx={{
-                                    display: { xs: 'none', md: 'flex' },
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'flex-end',
-                                    flexGrow: 1,
-                                    height: 150
-                                }}
-                            >
-                                <Stepper
-                                    id='desktop-stepper'
-                                    activeStep={activeStep - 1}
-                                    sx={{
-                                        width: '100%',
-                                        height: 40
-                                    }}
-                                >
-                                    {
-                                        riskAssessmentData.questions.map((item) => (
-                                            <Step
-                                                sx={{
-                                                    ':first-of-type': { pl: 0 },
-                                                    ':last-child': { pr: 0 }
-                                                }}
-                                                key={item.section}
-                                            >
-                                                <StepLabel
-                                                >
-                                                    {item.section}
-                                                </StepLabel>
-                                            </Step>
-                                        ))
-                                    }
-                                </Stepper>
-                            </Box>
+                        <DesktopStepper activeStep={activeStep}/>
                             {
                                 activeStep !== 0 ? (
-
-                                    <Box
-                                        sx={{
-                                            display: { xs: 'flex', sm: 'none' },
-                                            flexDirection: 'column',
-                                            flexGrow: 1,
-                                            width: '100%',
-                                        }}
-                                    >
-                                        <MobileStepper
-                                            variant="dots"
-                                            id='mobile-stepper'
-                                            steps={riskAssessmentData.questions.length}
-                                            activeStep={activeStep - 1}
-                                            nextButton={
-                                                <Button
-                                                    onClick={handleNext}
-                                                >
-                                                    Weiter
-                                                </Button>
-                                            }
-                                            backButton={
-                                                <Button
-                                                    onClick={handleBack}
-                                                >
-                                                    Zurück
-                                                </Button>
-                                            }
-                                        >
-
-                                        </MobileStepper>
-                                    </Box>
+                                    <PhoneStepper activeStep={activeStep} handleBack={handleBack} handleNext={handleNext}/>
                                 ) : (null)
                             }
                         </>
@@ -226,48 +157,7 @@ const RightSide = (props: RightSideProps) => {
                                         handleSubmit={handleSubmit}
                                     />
                                 </Box>
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: { xs: 'column-reverse', sm: 'row' },
-                                        justifyContent: activeStep !== 0 ? 'space-between' : 'flex-end',
-                                        alignItems: 'end',
-                                        flexGrow: 1,
-                                        gap: 1,
-                                        pb: { xs: 2, sm: 0 },
-                                        mt: { xs: 2, sm: 0 },
-                                        mb: '60px'
-                                    }}
-                                >
-                                    {
-                                        activeStep !== 0 && (
-                                            <Button
-                                                startIcon={<ChevronLeftRoundedIcon />}
-                                                onClick={handleBack}
-                                                variant="text"
-                                                sx={{
-                                                    display: { xs: 'none', sm: 'flex' },
-                                                    width: { xs: '100%', sm: 'fit-content' }
-                                                }}
-                                            >
-                                                Zurück
-                                            </Button>
-                                        )
-                                    }
-                                    <Button
-                                        variant="contained"
-                                        endIcon={<ChevronRightRoundedIcon />}
-                                        onClick={handleNext}
-                                        sx={{
-                                            display: { xs: 'none', sm: 'flex' },
-                                            width: { xs: '100%', sm: 'fit-content' }
-                                        }}
-                                    >
-                                        {
-                                            activeStep === riskAssessmentData.questions.length ? 'Ergebnis anzeigen' : 'Weiter'
-                                        }
-                                    </Button>
-                                </Box>
+                                <PreviousAndNextButton activeStep={activeStep} handleBack={handleBack} handleNext={handleNext}/>
                             </>
                         )
                 }
