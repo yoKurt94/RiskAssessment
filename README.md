@@ -29,8 +29,7 @@
 ## Verbesserungen
 
 - Bug: Wenn man mehrmals hintereinander eine falsche ID sucht, wird ein falsches Ergebnis angezeigt. Auch wenn der express.js Server offline ist, treten noch einige Bugs auf. Beispielsweise sollte dann keine ID angezeigt werden, da kein Datenbank Eintrag stattgefunden hat. 
-- Ich hätte gerne den `useFetch` hook oder die Nutzung des `useFetch` hooks verbessert.
-- Die Right Side Komponente ist kompliziert geworden. Das Problem ist, dass ich die beiden `useFetch` Hooks parallel benutze.
+- Ich hätte gerne den `useFetch` hook oder die Nutzung des `useFetch` hooks verbessert. Wenn man nur einen `useFetch` hook in der `RightSide.tsx` nutzt und den Link dynamisch ändert, würde vermutlich auch der Bug einfacher zu lösen sein. 
 - Die Nutzung der Datentypen kann vereinfacht werden. Beispielsweise habe ich einige Datentypen, die sehr ähnlich sind (`RiskRateResponse` und `RiskRateResponseAndID` z.B.).
 - Ich glaube, dass auch einige conditional renderings unverständlich sind und einfacher gemacht werden könnten.
 - Eventuell hätte ich auch andere große Komponenten noch weiter verkleinern können.
