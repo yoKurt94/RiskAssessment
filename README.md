@@ -5,10 +5,9 @@ Features:
 1. Express.js backend 
 2. Postgres Datenbank
 3. MUI Custom Theme
-~~4. useFetch Custom Hook~~
-5. Das Form erinnert sich an die Antwort, die man im vorherigen Step ausgewählt hat
-6. 2 Varianten für die Result Page
-7. Unterschiedliche Stepper für Mobile und Desktop
+4. Das Form erinnert sich an die Antwort, die man im vorherigen Step ausgewählt hat
+5. 2 Varianten für die Result Page
+6. Unterschiedliche Stepper für Mobile und Desktop
 
 Vorgehen:
 
