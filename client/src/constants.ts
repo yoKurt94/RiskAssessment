@@ -1,4 +1,4 @@
-import * as Types from "./types";
+import * as Types from "../../common/types";
 
 export const leftSideStartTexts = {
   subheader: "Was ist eine Risikokennzahl?",
@@ -75,7 +75,7 @@ export const riskAssessmentData = {
   ],
 };
 
-export const getInvestmentMessage = (response: Types.RiskRateResponse) => {
+export const getInvestmentMessage = (response: Types.RiskRateResponseAndID) => {
   const { calculatedRiskRate, riskValues } = response;
   const { yin, yang, volatility, return: expectedReturn } = riskValues;
 

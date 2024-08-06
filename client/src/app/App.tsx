@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import RiskAssessment from './RiskAssessment';
-import * as Types from '../types';
-import { UserAnswerContext } from '../types';
+import * as Types from '../../../common/types';
+import { UserAnswerContext } from '../../../common/types';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 function App() {
   const [answerAndResponseState, setanswerAndResponseState] = useState<Types.RiskRateResponseAndID>({
@@ -24,15 +25,20 @@ function App() {
     }
   });
 
+  const client = new QueryClient();
+
   return (
-    <UserAnswerContext.Provider
-      value={{
-        answerAndResponseState,
-        setanswerAndResponseState
-      }}
-    >
-      <RiskAssessment />
-    </UserAnswerContext.Provider>
+    <QueryClientProvider client={client}>
+      <UserAnswerContext.Provider
+        value={{
+          answerAndResponseState,
+          setanswerAndResponseState
+        }}
+      >
+        <RiskAssessment />
+      </UserAnswerContext.Provider>
+    </QueryClientProvider>
+
   )
 }
 

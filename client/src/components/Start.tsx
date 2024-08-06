@@ -37,7 +37,7 @@ const Start = (props: StartProps) => {
             gap={7}
             sx={{
                 height: { md: 300 },
-                pb: 10
+                pb: { xs: 5, md: 0 }
             }}
             >
                 <Button

@@ -13,23 +13,26 @@ import {
     FormLabel,
     FormHelperText
 } from "@mui/material";
-import * as Types from '../types';
+import * as Types from '../../../common/types';
 import { riskAssessmentData } from "../constants";
 
 interface QuestionProps {
     didClickBack: boolean,
-    question: Types.QuestionaireQuestion,
-    handleSubmit: (event: React.FormEvent, isValid: boolean) => void
+    questionNo: number,
 }
 
 const Question = (props: QuestionProps) => {
+    const questionIndex = props.questionNo >= riskAssessmentData.questions.length
+        ? riskAssessmentData.questions.length - 1
+        : props.questionNo
+    const question = riskAssessmentData.questions[questionIndex];
     const { answerAndResponseState, setanswerAndResponseState } = useContext(Types.UserAnswerContext);
-    const defaultValue = answerAndResponseState.answers[props.question.key as keyof typeof answerAndResponseState.answers];    
+    const defaultValue = answerAndResponseState.answers[question.key as keyof typeof answerAndResponseState.answers];
     const defaultValueString = typeof defaultValue === 'number' ? defaultValue.toString() : defaultValue;
     const [value, setValue] = useState<string>(defaultValueString);
     const [error, setError] = useState<boolean>(false);
     const [helperText, setHelperText] = useState<string>('');
-    const optionsEntries = Object.entries(props.question.options ?? {});
+    const optionsEntries = Object.entries(question.options ?? {});
 
     const generateMarks = () => {
         const marks = [];
@@ -63,7 +66,7 @@ const Question = (props: QuestionProps) => {
             ...prevState,
             answers: {
                 ...prevState.answers,
-                [props.question.key]: event.target.value
+                [question.key]: event.target.value
             }
         }));
         setValue(event.target.value);
@@ -76,7 +79,7 @@ const Question = (props: QuestionProps) => {
             ...prevState,
             answers: {
                 ...prevState.answers,
-                [props.question.key]: newValue
+                [question.key]: newValue
             }
         }));
         setValue(`${newValue}`);
@@ -84,42 +87,26 @@ const Question = (props: QuestionProps) => {
         setHelperText('');
     };
 
-    const validateForm = () => {
-        if (!value) {
-            setError(true);
-            setHelperText('Bitte wähle eine Option aus.');
-            return false;
-        } else {
-            setValue('');
-            setError(false);
-            setHelperText('');
-            return true;
-        }
-    }
-
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        const isValid = validateForm();
-        props.handleSubmit(event, isValid);
-    }
-
     return (
         <Box
             display='flex'
             flexDirection='column'
             gap={2}
         >
-            <form
-                onSubmit={handleSubmit}
-            >
-                <FormControl error={error}>
+            <form>
+                <FormControl 
+                error={error}
+                sx={{
+                    width: '100%'
+                }}
+                >
                     <FormLabel
                         id="question-label"
                     >
-                        {props.question.question}
+                        {question.question}
                     </FormLabel>
                     {
-                        props.question.section !== riskAssessmentData.questions[4].section ?
+                        question.section !== riskAssessmentData.questions[4].section ?
                             <>
                                 <RadioGroup
                                     aria-labelledby="question-label"
@@ -141,7 +128,8 @@ const Question = (props: QuestionProps) => {
                             :
                             <Box
                                 sx={{
-                                    pt: 10
+                                    pt: 10,
+                                    width: '100%'
                                 }}
                             >
                                 <Slider
@@ -153,6 +141,9 @@ const Question = (props: QuestionProps) => {
                                     max={10}
                                     onChange={handleSliderChange}
                                     value={stringToNumber(value)}
+                                    sx={{
+                                        width: '100%'
+                                    }}
                                 />
                             </Box>
                     }

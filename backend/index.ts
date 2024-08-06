@@ -1,15 +1,28 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const pool = require('./db');
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import { v4 } from 'uuid';
+import { 
+    RiskRateAnswers, 
+    RiskRateResponse,
+    RiskRateResponseAndID 
+} from '../common/types'
+import axios from 'axios';
 
+const pool = require('./db');
+const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post('/add_entry', async (req, res) => {
+app.post('/calculate-risk', async (req: Request, res: Response) => {
     try {
-        const { answers, riskValues, userId, calculatedRiskRate } = req.body; 
-
+        const userAnswers = req.body as RiskRateAnswers | null;
+        const response = await axios.post<RiskRateResponse>(
+            'https://sandbox.onboarding-api.evergreen.de/risk-rate/calculate',
+            userAnswers
+        );
+        const riskRate = response.data;
+        const { answers, calculatedRiskRate, riskValues } = riskRate;
+        const userId = v4();
         const newEntry = await pool.query(
             `INSERT INTO riskAssessment(user_id, goal, age, selfTest, duration, behaviour, calculatedRiskRate, yin, yang, returnRate, volatility, safetyZone, lowerLimit)
              SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
@@ -19,27 +32,20 @@ app.post('/add_entry', async (req, res) => {
              RETURNING *`,
             [userId, answers.goal, answers.age, answers.selfTest, answers.duration, answers.behaviour, calculatedRiskRate, riskValues.yin, riskValues.yang, riskValues.return, riskValues.volatility, riskValues.safetyZone, riskValues.lowerLimit]
         );
-
-        if (newEntry.rows.length > 0) {
-            res.json(newEntry.rows[0]);
-        } else {
-            console.log("Entry already exists or no new entry created.");
-            res.status(409).send("Entry already exists or no new entry created.");
-        }
+        const serverResponse: RiskRateResponseAndID = { userId: userId, ...riskRate };
+        res.json(serverResponse);
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server error");
+        res.status(500).send('Server error');
     }
 });
 
-
-app.get('/entries/:id', async (req, res) => {
+app.get('/entries/:id', async (req: Request<{ id: string }>, res: Response) => {
     try {
         const { id } = req.params;
         const answerAndResponse = await pool.query('SELECT * FROM riskAssessment WHERE user_id = $1', [id]);
         const rawData = answerAndResponse.rows[0];
         if (answerAndResponse.rows.length > 0) {
-            const transformedData = {
+            const transformedData: RiskRateResponseAndID = {
                 userId: rawData.user_id,
                 answers: {
                   goal: rawData.goal,
@@ -63,7 +69,6 @@ app.get('/entries/:id', async (req, res) => {
             res.status(404).send("Entry not found"); 
         }
     } catch (err) {
-        console.log(err.message);
         res.status(500).send("Server error");
     }
 });

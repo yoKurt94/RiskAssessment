@@ -6,11 +6,11 @@ import {
 import { styled } from '@mui/material/styles';
 import { lilac, grey } from "../CustomTheme";
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-import * as Types from '../types'
+import * as Types from '../../../common/types'
 import { getRiskEmoji } from "../constants";
 
 interface ResultCardProps {
-    resultData: Types.RiskRateResponse
+    resultData: Types.RiskRateResponseAndID
 }
 
 const ResultCard = (props: ResultCardProps) => {

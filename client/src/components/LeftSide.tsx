@@ -6,7 +6,7 @@ import {
 import Info from "./Info";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { leftSideStartTexts, riskAssessmentData, getInvestmentMessage } from "../constants";
-import { UserAnswerContext } from "../types";
+import { UserAnswerContext } from "../../../common/types";
 
 interface LeftCheckoutSide {
     currentQuestion: number

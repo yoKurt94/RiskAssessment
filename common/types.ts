@@ -60,17 +60,11 @@ export type RiskRateResponse = {
     safetyZone: number;
     lowerLimit: number;
   };
-};
+}
 
 export type RiskRateResponseAndID = {
   userId: string;
-  answers: {
-    goal: string;
-    age: string;
-    selfTest: number;
-    duration: string;
-    behaviour: string;
-  };
+  answers: RiskRateAnswers;
   calculatedRiskRate: number;
   riskValues: {
     yin: number;
@@ -82,12 +76,9 @@ export type RiskRateResponseAndID = {
   };
 }
 
-export type FetchResponse = {
-  response: number,
-  data: RiskRateResponse | RiskRateResponseAndID | null,
-  error: string | null,
-  loading: boolean
-}
+export type QueryKey = 
+  | ['entries', string]
+  | ['calculate-risk', number, RiskRateAnswers];
 
 export const UserAnswerContext = createContext<{answerAndResponseState: RiskRateResponseAndID, setanswerAndResponseState: (updateFn: (prevState: RiskRateResponseAndID) => RiskRateResponseAndID) => void}>({
   answerAndResponseState: {
